@@ -1,0 +1,33 @@
+bool znajdzIteracyjnie(int r, int c){//używamy stosu
+    
+   int stackR[1000], stackC[1000];
+   int top = 0;
+   
+   stackR[top]=0; stackC[top]=0;
+   top++;
+   
+   while(top>0){
+       top--;
+       int r = stackR[top];
+       int c = stackC[top];
+       
+       if(odwiedzone[r][c]) continue;
+       odwiedzone[r][c] = true;
+       labirynt[r][c]=-1;
+       
+       if(r == n-1 && c == n-1) return true;
+       
+       for(int i=0; i<4; i++){
+           int nr = r+ dr[i];
+           int nc = c+ dc[i];
+           
+           if(nr>=0 && nr<n && nc>=0 && nc<n && labirynt[nr][nc]==1 && !odwiedzone[nr][nc]){
+               stackR[top] = nr;
+               stackC[top]=nc;
+               top++;
+           }
+       }
+   }
+   
+   return false; 
+}
