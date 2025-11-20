@@ -31,3 +31,44 @@ bool znajdzIteracyjnie(int r, int c){//używamy stosu
    
    return false; 
 }
+
+
+backtracking 
+bool znajdzZNawrotamiHelper(int r, int c) {
+    // sprawdzenie granic
+    if(r<0 || r>=n || c<0 || c>=n) return false;
+
+    // jeśli ściana lub odwiedzone, nie idziemy
+    if(labirynt[r][c]==0 || odwiedzone[r][c]) return false;
+
+    odwiedzone[r][c] = true; // oznaczamy odwiedzone
+
+    // jeśli dotarliśmy do wyjścia
+    if(r == n-1 && c == n-1) {
+        labirynt[r][c] = -1;
+        return true;
+    }
+
+    // sprawdzamy 4 kierunki
+    for(int k=0; k<4; k++){
+        int nr = r + dr[k];
+        int nc = c + dc[k];
+
+        if(znajdzZNawrotamiHelper(nr, nc)) {
+            labirynt[r][c] = -1; // zaznaczamy ścieżkę
+            return true;
+        }
+    }
+
+    // jeśli żaden kierunek nie działa -> cofamy się
+    return false;
+}
+
+bool znajdzZNawrotami() {
+    // czyszczenie odwiedzone
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            odwiedzone[i][j] = false;
+
+    return znajdzZNawrotamiHelper(0,0);
+}
